@@ -6,13 +6,15 @@ class Student
   #  with DB[:conn]
 
   def initialize (name, grade, id=nil)
-    @name, @grade, @id = name, grade, id
+    @name = name
+    @grade = grade
+    @id = id
   end
 
   def save ()
-    sql = << SQL
-      "INSERT INTO students (name,grade)
-      VALUES (?, ?)"
+    sql = <<-SQL
+      INSERT INTO students (name,grade)
+      VALUES (?, ?)
       SQL
     DB[:conn].execute(sql, self.name, self.grade)
     @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students")[0][0]
